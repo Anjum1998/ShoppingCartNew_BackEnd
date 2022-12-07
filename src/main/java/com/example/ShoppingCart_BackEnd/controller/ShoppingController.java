@@ -5,6 +5,8 @@ import com.example.ShoppingCart_BackEnd.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class ShoppingController {
     @Autowired
@@ -21,5 +23,11 @@ public class ShoppingController {
         System.out.println(p.getDescription().toString());
         dao.save(p);
         return "product added";
+    }
+    @CrossOrigin(origins = "*")
+    @GetMapping("/view")
+    public List<Product> ViewProduct()
+    {
+        return (List<Product>) dao.findAll();
     }
 }
