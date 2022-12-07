@@ -5,7 +5,9 @@ import com.example.ShoppingCart_BackEnd.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class ShoppingController {
@@ -14,7 +16,7 @@ public class ShoppingController {
 
     @CrossOrigin("*")
     @PostMapping(path = "/add",consumes = "application/json",produces = "application/json")
-    public String AddProduct(@RequestBody Product p)
+    public Map<String,String> AddProduct(@RequestBody Product p)
     {
         System.out.println(p.getPname().toString());
         System.out.println(p.getImage().toString());
@@ -22,7 +24,9 @@ public class ShoppingController {
         System.out.println(p.getPrice());
         System.out.println(p.getDescription().toString());
         dao.save(p);
-        return "product added";
+        HashMap<String,String> map=new HashMap<>();
+        map.put("status","success");
+        return map;
     }
     @CrossOrigin(origins = "*")
     @GetMapping("/view")
