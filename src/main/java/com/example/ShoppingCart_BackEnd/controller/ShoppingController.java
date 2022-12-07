@@ -1,7 +1,9 @@
 package com.example.ShoppingCart_BackEnd.controller;
 
 import com.example.ShoppingCart_BackEnd.dao.ProductDao;
+import com.example.ShoppingCart_BackEnd.dao.RegisterDao;
 import com.example.ShoppingCart_BackEnd.model.Product;
+import com.example.ShoppingCart_BackEnd.model.UserRegister;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +15,9 @@ import java.util.Map;
 public class ShoppingController {
     @Autowired
     private ProductDao dao;
+
+    @Autowired
+    private RegisterDao d;
 
     @CrossOrigin("*")
     @PostMapping(path = "/add",consumes = "application/json",produces = "application/json")
@@ -41,5 +46,21 @@ public class ShoppingController {
         String pname=p.getPname().toString();
         System.out.println(pname);
         return (List<Product>) dao.SearchProduct(p.getPname());
+    }
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = "/register",consumes = "application/json",produces = "application/json")
+    public Map<String,String> UserRegister(@RequestBody UserRegister u)
+    {
+        System.out.println(u.getName().toString());
+        System.out.println(u.getAddress().toString());
+        System.out.println(u.getPhone());
+        System.out.println(u.getEmail().toString());
+        System.out.println(u.getPassword().toString());
+        System.out.println(u.getConfirm().toString());
+        d.save(u);
+        HashMap<String,String> map=new HashMap<>();
+        map.put("status","success");
+        return map;
+
     }
 }
