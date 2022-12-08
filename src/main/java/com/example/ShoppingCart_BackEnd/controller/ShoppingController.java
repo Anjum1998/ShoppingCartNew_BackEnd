@@ -63,4 +63,14 @@ public class ShoppingController {
         return map;
 
     }
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = "/login",consumes = "application/json",produces = "application/json")
+    public List<UserRegister> UserLogin(@RequestBody UserRegister u)
+    {
+        String email=u.getEmail().toString();
+        String password=u.getPassword().toString();
+        System.out.println(email);
+        System.out.println(password);
+        return (List<UserRegister>) d.UserLogin(u.getEmail(),u.getPassword());
+    }
 }
