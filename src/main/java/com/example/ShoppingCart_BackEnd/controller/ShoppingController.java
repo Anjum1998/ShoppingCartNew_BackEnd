@@ -47,6 +47,10 @@ public class ShoppingController {
         System.out.println(pname);
         return (List<Product>) dao.SearchProduct(p.getPname());
     }
+
+
+
+
     @CrossOrigin(origins = "*")
     @PostMapping(path = "/register",consumes = "application/json",produces = "application/json")
     public Map<String,String> UserRegister(@RequestBody UserRegister u)
@@ -64,13 +68,36 @@ public class ShoppingController {
 
     }
     @CrossOrigin(origins = "*")
+    @PostMapping(path="/viewprofile",consumes = "application/json",produces = "application/json")
+    public List<UserRegister> ViewProfile(@RequestBody UserRegister u)
+    {
+        String id=String.valueOf(u.getId());
+        System.out.println(id);
+        return (List<UserRegister>) d.ViewProfile(u.getId());
+
+    }
+    @CrossOrigin(origins = "*")
     @PostMapping(path = "/login",consumes = "application/json",produces = "application/json")
-    public List<UserRegister> UserLogin(@RequestBody UserRegister u)
+    public Map<String,String> UserLogin(@RequestBody UserRegister u)
     {
         String email=u.getEmail().toString();
         String password=u.getPassword().toString();
         System.out.println(email);
         System.out.println(password);
-        return (List<UserRegister>) d.UserLogin(u.getEmail(),u.getPassword());
+         List<UserRegister> result= (List<UserRegister>) d.UserLogin(u.getEmail(),u.getPassword());
+         HashMap<String,String> map=new HashMap<>();
+         if(result.size()==0)
+         {
+             map.put("status","failed");
+             map.put("message","user not exist");
+
+         }
+         else{
+             int id=result.get(0).getId();
+             map.put("userId",String.valueOf(id));
+             map.put("status","success");
+             map.put("message","user login success");
+         }
+         return map;
     }
 }
